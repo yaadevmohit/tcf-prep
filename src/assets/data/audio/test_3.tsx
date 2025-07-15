@@ -3,6 +3,7 @@ const questionData = [
         id: 1,
         audioSrc: "https://examens.preptcfcanada.com/wp-content/uploads/2022/04/Test-3-%E2%80%93-Q1.mp3?_=1",
         question: "écoutez l'extrait sonore et la question. Choisissez la bonne réponse.",
+        imgSrc: "src/assets/data/audio/test_3_audio/q1.png",
         options: [
             { label: "A", text: "", isCorrect: false },
             { label: "B", text: "", isCorrect: true },
@@ -15,6 +16,7 @@ const questionData = [
         id: 2,
         audioSrc: "https://examens.preptcfcanada.com/wp-content/uploads/2022/04/Test-3-%E2%80%93-Q2.mp3?_=2",
         question: "écoutez l'extrait sonore et la question. Choisissez la bonne réponse.",
+        imgSrc: "src/assets/data/audio/test_3_audio/q2.png",
         options: [
             { label: "A", text: "", isCorrect: false },
             { label: "B", text: "", isCorrect: false },
