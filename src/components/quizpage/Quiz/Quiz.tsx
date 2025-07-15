@@ -1,23 +1,22 @@
-import React, { useState } from 'react';
 import Question from './Question';
 import Timer from '../Timer';
-import questionData from '../../../assets/data/audio/test_2';
+import questionData from '../../../assets/data/audio/test_3';
 import styles from './Quiz.module.css';
+
+type Option = {
+  label: string;
+  text: string;
+  isCorrect: boolean;
+};
 
 type QuestionType = {
   id: number;
+  imgSrc?: string;
   audioSrc: string;
+  contextText?: string;
   question: string;
   points: number;
-  contextText?: string;
-  imgSrc?: string;
-  options: {
-    A: string;
-    B: string;
-    C: string;
-    D: string;
-  }
-  correctOption: string;
+  options: Option[];
 };
 
 const questions: QuestionType[] = Array.from(questionData);
