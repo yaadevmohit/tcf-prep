@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
 interface TimerProps {
-  minutes: number;
+  totalTime: number;
   onFinish?: () => void;
 }
 
-const Timer: React.FC<TimerProps> = ({ minutes, onFinish }) => {
-  const [secondsLeft, setSecondsLeft] = useState(minutes * 60);
+const Timer: React.FC<TimerProps> = ({ totalTime, onFinish }) => {
+  const [secondsLeft, setSecondsLeft] = useState(totalTime);
 
   useEffect(() => {
     if (secondsLeft <= 0) {

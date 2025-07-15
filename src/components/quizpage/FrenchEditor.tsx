@@ -1,13 +1,14 @@
 import React, { useRef, useState } from 'react';
 import './FrenchEditor.css';
 import Timer from './Timer';
+import AccentKeyboard from './AccentKeyboard';
+import ExpressionEcrite from './ExpressionEcrite';
 
 interface Text {
   id: number;
   wordCount: number;
   value?: string;
 }
-const accentChars = ['é', 'è', 'ê', 'ë', 'à', 'â', 'î', 'ï', 'ô', 'ù', 'û', 'ç'];
 
 interface Question {
   id: number;
@@ -30,28 +31,8 @@ const FrenchEditor: React.FC<FrenchEditorProps> = ({questionData}) => {
 );
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const question = questionData[currentTask]
-  const insertAccent = (char: string) => {
-  const textarea = textareaRef.current;
-  if (!textarea) return;
-
-  const start = textarea.selectionStart;
-  const end = textarea.selectionEnd;
-
-  const currentText = texts[currentTask].value || '';
-  const newText = currentText.slice(0, start) + char + currentText.slice(end);
-
-  // Update state
-  handleInput(newText);
-  // Wait for state update to render, then restore cursor
-  setTimeout(() => {
-    if (textarea) {
-      const pos = start + char.length;
-      textarea.focus();
-      textarea.selectionStart = textarea.selectionEnd = pos;
-    }
-  }, 0);
-};
+  const currentQuestion = questionData[currentTask]
+  const { id, title, description, wordsMin, wordsMax } = currentQuestion;
 
    const handleInput = (value: string) => {
     updateWordCount(value);
@@ -98,47 +79,16 @@ const FrenchEditor: React.FC<FrenchEditorProps> = ({questionData}) => {
 
     <div className='french-writing-container'>
       <div className="french-tasks-container">
-        <div className='writing-editor-container'>
-          <div className="question-container">
-            <h3 className='question-heading'>{`Tâche ${question.id}`}</h3>
-            {question.title && <h4 className='question-title'>{question.title}</h4>}
-            {question.description.map((desc, idx) => (
-              <p className='question-description' key={idx}>{desc}</p>
-            ))}
-            <span className='question-word-limit'>({question.wordsMin} mots minimum/{question.wordsMax} mots maximum)</span>
-          </div>
-          <textarea
-            ref={textareaRef}
-            className="text-area"
-            placeholder="commence ici..."
-            spellCheck={false}
-            onChange={(e) => handleInput(e.target.value)}
-            value={texts[currentTask].value || ''}
-          ></textarea>
-          <div className="word-count">📝 Word count: {texts[currentTask].wordCount}</div>
+        <ExpressionEcrite {...{id, title, description, wordsMin, wordsMax, textareaRef, handleInput, texts, currentTask}}/>
+        <div className="buttons-container">
+          <button className={currentTask > 0 ? "btn prev" : "hidden-button"} onClick={handlePrev}>Previous</button>
+          <button className="btn submit" onClick={disableTextarea}>Submit</button>
+          <button className={currentTask < 2 ? "btn next" : "hidden-button"} onClick={handleNext}>Next</button>
         </div>
-      <div className="buttons-container">
-        <button className={currentTask > 0 ? "btn prev" : "hidden-button"} onClick={handlePrev}>Previous</button>
-        <button className="btn submit" onClick={disableTextarea}>Submit</button>
-        <button className={currentTask < 2 ? "btn next" : "hidden-button"} onClick={handleNext}>Next</button>
-      </div>
       </div>
       <div className="writing-side-container">
-        <div className="accent-buttons-container">
-          <h3 className='accent-buttons-container-heading'>Accent buttons</h3>
-          <div className="accent-buttons">
-            {accentChars.map((char) => (
-              <button
-                key={char}
-                className="accent-btn"
-                onClick={() => insertAccent(char)}
-              >
-                {char}
-              </button>
-            ))}
-          </div>
-        </div>
-        <Timer minutes={60} onFinish={disableTextarea}/>
+        <AccentKeyboard {...{textareaRef, texts, handleInput, currentTask}} />
+        <Timer totalTime={60} onFinish={disableTextarea}/>
       </div>
     </div>
   );
