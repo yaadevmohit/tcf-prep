@@ -1,6 +1,6 @@
 import Question from './Question';
 import Timer from '../Timer';
-import questionData from '../../../assets/data/audio/test_6';
+import questionData from '../../../assets/data/audio/test_7';
 import styles from './Quiz.module.css';
 
 type Option = {
