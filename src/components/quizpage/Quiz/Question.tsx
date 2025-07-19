@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styles from './Question.module.css';
+import { useQuiz } from './QuizContext';
 
 type Option = {
   label: string;
@@ -17,14 +18,20 @@ type QuestionProps = {
   points: number;
 };
 
-const Question: React.FC<QuestionProps> = ({ number, question, contextText, options, audioUrl, imgUrl}) => {
+const Question: React.FC<QuestionProps> = ({ number, question, contextText, options, audioUrl, imgUrl, points}) => {
   const [selected, setSelected] = useState<number | null>(null);
   const [showFeedback, setShowFeedback] = useState(false);
-
+  const { setAnswer } = useQuiz();
+  
   const handleClick = (index: number) => {
     setSelected(index);
+    const isCorrect = options[index].isCorrect;
+    const pointsEarned = isCorrect ? points : 0;
+    setAnswer(number, options[index].text, isCorrect, pointsEarned);
     setShowFeedback(true);
   };
+
+
 
   return (
     <div className={styles.container}>

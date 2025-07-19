@@ -9,7 +9,6 @@
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: black;
-  overflow: scroll;
 }
 
 .timerContainer {
@@ -23,6 +22,14 @@
     height: 40px;
 }
 
+.scoreCardContainer {
+  position: fixed;
+  top: 1.2rem;
+  right: 1.6rem;
+  width: 300px;
+  height: fit-content;
+  padding: 20px;
+}
 .audio {
   width: 100%;
   margin-bottom: 26px;
