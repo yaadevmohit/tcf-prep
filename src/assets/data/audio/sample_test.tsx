@@ -425,7 +425,7 @@ const questionsData = [
             { label: "C", text: "", isCorrect: undefined },
             { label: "D", text: "", isCorrect: undefined }
         ],
-        points: 326,
+        points: 26,
     },
     {
         id: 36,

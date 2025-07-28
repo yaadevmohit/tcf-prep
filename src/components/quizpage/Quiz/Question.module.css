@@ -89,3 +89,13 @@
   font-weight: bold;
   font-size: 16px;
 }
+
+.hintBtn {
+  margin-bottom: 12px;
+  padding: 8px 14px;
+  border: 2px solid #3b82f6;
+  background: #eff6ff;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}

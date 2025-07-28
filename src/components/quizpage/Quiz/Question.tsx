@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import styles from './Question.module.css';
 import { useQuiz } from './QuizContext';
 
@@ -22,6 +22,8 @@ const Question: React.FC<QuestionProps> = ({ number, question, contextText, opti
   const [selected, setSelected] = useState<number | null>(null);
   const [showFeedback, setShowFeedback] = useState(false);
   const { setAnswer } = useQuiz();
+  const [showHint, setShowHint] = useState(!audioUrl);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   
   const handleClick = (index: number) => {
     setSelected(index);
@@ -29,25 +31,34 @@ const Question: React.FC<QuestionProps> = ({ number, question, contextText, opti
     const pointsEarned = isCorrect ? points : 0;
     setAnswer(number, options[index].text, isCorrect, pointsEarned);
     setShowFeedback(true);
+    pauseAudio();
   };
 
-
-
+  const pauseAudio = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+    }
+  }
   return (
     <div className={styles.container}>
       {imgUrl && (
         <img src={imgUrl} alt="Question visual" className={styles.image}/>
       )}
       {audioUrl && (
-        <audio controls className={styles.audio}>
+        <audio ref={audioRef} controls className={styles.audio}>
           <source src={audioUrl} type="audio/mpeg" />
           Your browser does not support the audio element.
         </audio>
       )}
-      {contextText 
-        &&
-        <blockquote className={styles.contextText}>{contextText}</blockquote>
-      }
+      {audioUrl && contextText && !showHint ? (
+        <button onClick={() => setShowHint(true)} className={styles.hintBtn}>
+          Afficher la transcription
+        </button>
+      ) : (
+        contextText && (
+          <blockquote className={styles.contextText}>{contextText}</blockquote>
+        )
+      )}
       <div className={styles.questionLine}>
         <span className={styles.questionNumber}>{number}</span>
         {<span className={styles.question}>{question}</span>}
