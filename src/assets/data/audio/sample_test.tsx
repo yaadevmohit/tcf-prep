@@ -1,3 +1,22 @@
+// instructions to create a test file for a quiz component
+// create an array correctAnswers
+// run this
+// questionsData.forEach((question, index) => {
+//   const correctLetter = correctAnswers[index];
+//   question.options.forEach(option => {
+//     option.isCorrect = option.label === correctLetter;
+//   });
+// });
+// copy the audioSrc from docs
+// run this
+// questionsData.forEach((question, index) => {
+//   question.audioSrc = audioSources[index]
+// });
+// then use inline chat to better format the code
+
+
+
+
 const questionsData = [
     {
         id: 1,
@@ -221,7 +240,7 @@ const questionsData = [
             { label: "C", text: "", isCorrect: undefined },
             { label: "D", text: "", isCorrect: undefined }
         ],
-        points: 3,
+        points: 15,
     },
     {
         id: 19,

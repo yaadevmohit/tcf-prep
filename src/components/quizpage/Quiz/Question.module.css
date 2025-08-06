@@ -8,17 +8,20 @@
   font-family: 'Arial', sans-serif;
   display: flex;
   flex-direction: column;
-  gap: 16px
+  gap: 16px;
 }
 
 .contextText {
   background: #e8f0fc;
-  padding: 16px;
+  padding: 16px 30px;
   border-left: 4px solid #3b82f6;
   font-style: italic;
   color: #333;
   margin-bottom: 24px;
   border-radius: 4px;
+  width: fit-content;
+  align-self: center;
+  font-size: 1.6rem;
 }
 
 .promptLine {

@@ -1,7 +1,7 @@
 import Question from './Question';
 import { useQuiz } from './QuizContext';
 import Timer from '../Timer';
-import questionData from '../../../assets/data/audio/test_8';
+import questionData, {metaData} from '../../../assets/data/reading/test_1/test_1';
 import styles from './Quiz.module.css';
 import ScoreCard from './ScoreCard';
 
@@ -14,7 +14,7 @@ type Option = {
 type QuestionType = {
   id: number;
   imgSrc?: string;
-  audioSrc: string;
+  audioSrc?: string;
   contextText?: string;
   question: string;
   points: number;
@@ -30,6 +30,7 @@ const Quiz: React.FC = () => {
   const currentScore = Object.values(answers).reduce((acc, answer) => acc + (answer.isCorrect ? answer.pointsEarned : 0), 0);
   return (
     <div className={styles.quizContainer}>
+      <h1 className={styles.quizTitle}>{metaData.title}</h1>
       {questions.map(question => <Question
         key={question.id}
         number={question.id}
@@ -41,7 +42,7 @@ const Quiz: React.FC = () => {
         points={question.points}
       />)}
       <div className={styles.timerContainer}>
-        <Timer totalTime={35*60} onFinish={() => alert('Time is up!')} />
+        <Timer totalTime={metaData.duration*60} onFinish={() => alert('Time is up!')} />
       </div>
       <div className={styles.scoreCardContainer}>
           <ScoreCard currentScore={currentScore} totalScore={totalScore} />

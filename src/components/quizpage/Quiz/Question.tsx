@@ -33,7 +33,27 @@ const Question: React.FC<QuestionProps> = ({ number, question, contextText, opti
     setShowFeedback(true);
     pauseAudio();
   };
-
+  const parseTextWithStyles = (text: string) => {
+    return text
+      .split(/\r?\n/) // Line break into paragraphs
+      .map((line, lineIndex) => (
+        <p key={lineIndex} style={{ marginBottom: '0.5rem' }}>
+          {line.split(/(\*\*.*?\*\*|\^\^.*?\^\^)/g).map((part, i) => {
+            if (part.startsWith("**") && part.endsWith("**")) {
+              return <strong key={i}>{part.slice(2, -2)}</strong>;
+            }
+            if (part.startsWith("^^") && part.endsWith("^^")) {
+              return (
+                <small key={i} style={{ float: "right", fontSize: "0.5em" }}>
+                  {part.slice(2, -2)}
+                </small>
+              );
+            }
+            return <span key={i}>{part}</span>;
+          })}
+        </p>
+      ));
+  }
   const pauseAudio = () => {
     if (audioRef.current) {
       audioRef.current.pause();
@@ -56,9 +76,11 @@ const Question: React.FC<QuestionProps> = ({ number, question, contextText, opti
         </button>
       ) : (
         contextText && (
-          <blockquote className={styles.contextText}>{contextText}</blockquote>
-        )
-      )}
+            <blockquote className={styles.contextText}>
+              {parseTextWithStyles(contextText)}
+            </blockquote>
+          )
+          )}
       <div className={styles.questionLine}>
         <span className={styles.questionNumber}>{number}</span>
         {<span className={styles.question}>{question}</span>}

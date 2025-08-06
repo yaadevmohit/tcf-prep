@@ -34,3 +34,10 @@
   width: 100%;
   margin-bottom: 26px;
 }
+
+.quizTitle {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #333;
+}

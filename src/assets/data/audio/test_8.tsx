@@ -46,6 +46,14 @@
 //     "https://examens.preptcfcanada.com/wp-content/uploads/2022/04/Test-8-%E2%80%93-Q38.mp3?_=38",
 //     "https://examens.preptcfcanada.com/wp-content/uploads/2022/04/Test-8-%E2%80%93-Q39.mp3?_=39"
 // ]
+export const metaData = {
+    title: "Test 8",
+    testType: "audio",
+    description: "Test 8 audio questions for TCF Canada",
+    totalQuestions: 39,
+    totalPoints: 699,
+    duration: 35,
+}
 
 const questionsData = [
     {
