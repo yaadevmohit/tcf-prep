@@ -1,6 +1,7 @@
-import { useState, useRef } from 'react';
+import React, { useState, useRef} from 'react';
 import styles from './Question.module.css';
 import { useQuiz } from './QuizContext';
+import Keywords from './Keywords';
 
 type Option = {
   label: string;
@@ -16,13 +17,17 @@ type QuestionProps = {
   audioUrl?: string;
   imgUrl?: string;
   points: number;
+  englishTranslation?: string;
+  keywords?: { word: string; translation: string }[];
 };
 
-const Question: React.FC<QuestionProps> = ({ number, question, contextText, options, audioUrl, imgUrl, points}) => {
+const Question: React.FC<QuestionProps> = ({ number, question, contextText, options, audioUrl, imgUrl, points, englishTranslation, keywords}) => {
   const [selected, setSelected] = useState<number | null>(null);
   const [showFeedback, setShowFeedback] = useState(false);
   const { setAnswer } = useQuiz();
   const [showHint, setShowHint] = useState(!audioUrl);
+  const [showTranslation, setShowTranslation] = useState(false);
+  const [showKeywords, setShowKeywords] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   
   const handleClick = (index: number) => {
@@ -34,25 +39,29 @@ const Question: React.FC<QuestionProps> = ({ number, question, contextText, opti
     pauseAudio();
   };
   const parseTextWithStyles = (text: string) => {
-    return text
-      .split(/\r?\n/) // Line break into paragraphs
-      .map((line, lineIndex) => (
-        <p key={lineIndex} style={{ marginBottom: '0.5rem' }}>
-          {line.split(/(\*\*.*?\*\*|\^\^.*?\^\^)/g).map((part, i) => {
+  return text
+    .split("§") // Special marker for line breaks
+    .map((line, lineIndex) => (
+      <React.Fragment key={lineIndex}>
+        {
+          line.split(/(\*\*.*?\*\*|\^\^.*?\^\^)/g).map((part, i) => {
             if (part.startsWith("**") && part.endsWith("**")) {
               return <strong key={i}>{part.slice(2, -2)}</strong>;
             }
             if (part.startsWith("^^") && part.endsWith("^^")) {
               return (
-                <small key={i} style={{ float: "right", fontSize: "0.5em" }}>
+                <small key={i} style={{ float: "right", fontSize: "0.55em" }}>
                   {part.slice(2, -2)}
                 </small>
               );
             }
             return <span key={i}>{part}</span>;
-          })}
-        </p>
-      ));
+          })
+        }
+        {/* Add line break except after the last line */}
+        {lineIndex < text.split("§").length - 1 && <br />}
+      </React.Fragment>
+    ));
   }
   const pauseAudio = () => {
     if (audioRef.current) {
@@ -60,7 +69,7 @@ const Question: React.FC<QuestionProps> = ({ number, question, contextText, opti
     }
   }
   return (
-    <div className={styles.container}>
+    <div className={styles.questionElementContainer}>
       {imgUrl && (
         <img src={imgUrl} alt="Question visual" className={styles.image}/>
       )}
@@ -81,12 +90,12 @@ const Question: React.FC<QuestionProps> = ({ number, question, contextText, opti
             </blockquote>
           )
           )}
-      <div className={styles.questionLine}>
+      <div className={styles.questionContainer}>
         <span className={styles.questionNumber}>{number}</span>
         {<span className={styles.question}>{question}</span>}
       </div>
 
-      <div className={styles.options}>
+      <div className={styles.optionsContainer}>
         {options.map((option, idx) => {
           const isSelected = selected === idx;
           const isCorrect = option.isCorrect;
@@ -111,7 +120,34 @@ const Question: React.FC<QuestionProps> = ({ number, question, contextText, opti
           );
         })}
       </div>
+      {englishTranslation && (
+        <div className={styles.translationToggleWrapper}>
+          <button
+        onClick={() => setShowTranslation(prev => !prev)}
+        className={styles.translationToggleBtn}
+          >
+        {showTranslation ? "Hide Translation" : "Show Translation"}
+          </button>
+          {showTranslation && (
+        <div className={styles.translationText}>
+          {englishTranslation}
+        </div>
+          )}
+        </div>
+      )}
 
+      {keywords && (
+        <div className={styles.translationToggleWrapper}>
+          <button
+            onClick={() => setShowKeywords(prev => !prev)}
+            className={styles.translationToggleBtn}
+          >
+            {showKeywords ? "Hide keywords" : "Show keywords"}
+          </button>
+
+          {showKeywords && <Keywords data={keywords} />}
+        </div>
+        )}
       {showFeedback && (
         <div className={styles.feedback}>
           {options[selected!].isCorrect ? 'Correcte' : 'Incorrecte'}

@@ -1,4 +1,13 @@
-const questionData = [
+export const metaData = {
+    title: "Test 2",
+    testType: "audio",
+    description: "Test 2 audio questions for TCF Canada",
+    totalQuestions: 39,
+    totalPoints: 699,
+    duration: 35,
+};
+
+const questionsData = [
     {
         id: 1,
         audioSrc: "https://examens.preptcfcanada.com/wp-content/uploads/2022/04/Test-2-%E2%80%93-Q1.mp3?_=1",
@@ -472,4 +481,4 @@ const questionData = [
     }
 ];
 
-export default questionData;
+export default questionsData;

@@ -1,3 +1,13 @@
+export const metaData = {
+    title: "Test 7",
+    testType: "audio",
+    description: "Test 7 audio questions for TCF Canada",
+    totalQuestions: 39,
+    totalPoints: 699,
+    duration: 35,
+};
+
+
 const questionsData = [
     {
         "id": 1,
