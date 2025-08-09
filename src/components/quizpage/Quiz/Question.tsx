@@ -11,7 +11,7 @@ type Option = {
 
 type QuestionProps = {
   number: number;
-  question: string;
+  question?: string;
   contextText?: string;
   options: Option[];
   audioUrl?: string;
@@ -90,10 +90,12 @@ const Question: React.FC<QuestionProps> = ({ number, question, contextText, opti
             </blockquote>
           )
           )}
-      <div className={styles.questionContainer}>
-        <span className={styles.questionNumber}>{number}</span>
-        {<span className={styles.question}>{question}</span>}
-      </div>
+      {question && 
+        <div className={styles.questionContainer}>
+          <span className={styles.questionNumber}>{number}</span>
+          <span className={styles.question}>{question}</span>
+        </div>
+      }
 
       <div className={styles.optionsContainer}>
         {options.map((option, idx) => {

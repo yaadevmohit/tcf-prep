@@ -1,10 +1,10 @@
 import Question from './Question';
 import { useQuiz } from './QuizContext';
 import Timer from '../Timer';
-import  {metaData } from '../../../assets/data/reading/test_1/test_1';
+import  {metaData } from '../../../assets/data/reading/test_3/test_3';
 import styles from './Quiz.module.css';
 import ScoreCard from './ScoreCard';
-import questionsData from '../../../assets/data/reading/test_1/test_1';
+import questionsData from '../../../assets/data/reading/test_3/test_3';
 type Option = {
   label: string;
   text: string;
@@ -16,7 +16,7 @@ type QuestionType = {
   imgSrc?: string;
   audioSrc?: string;
   contextText?: string;
-  question: string;
+  question?: string;
   points: number;
   options: Option[];
   englishTranslation?: string;
