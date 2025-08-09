@@ -19,15 +19,17 @@ type QuestionProps = {
   points: number;
   englishTranslation?: string;
   keywords?: { word: string; translation: string }[];
+  explanation?: string;
 };
 
-const Question: React.FC<QuestionProps> = ({ number, question, contextText, options, audioUrl, imgUrl, points, englishTranslation, keywords}) => {
+const Question: React.FC<QuestionProps> = ({ number, question, contextText, options, audioUrl, imgUrl, points, englishTranslation, keywords, explanation}) => {
   const [selected, setSelected] = useState<number | null>(null);
   const [showFeedback, setShowFeedback] = useState(false);
   const { setAnswer } = useQuiz();
   const [showHint, setShowHint] = useState(!audioUrl);
   const [showTranslation, setShowTranslation] = useState(false);
   const [showKeywords, setShowKeywords] = useState(false);
+  const [showExplanation, setShowExplanation] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   
   const handleClick = (index: number) => {
@@ -88,9 +90,40 @@ const Question: React.FC<QuestionProps> = ({ number, question, contextText, opti
             <blockquote className={styles.contextText}>
               {parseTextWithStyles(contextText)}
             </blockquote>
-          )
+            )
+            )}
+        {englishTranslation && (
+          <div className={styles.translationToggleWrapper}>
+          <button
+            onClick={() => setShowTranslation(prev => !prev)}
+            className={styles.translationToggleBtn}
+          >
+            {showTranslation ? "Hide Translation" : "Show Translation"}
+          </button>
+          {showTranslation && (
+            <div className={styles.translationText}>
+            {parseTextWithStyles(englishTranslation)}
+            </div>
           )}
-      {question && 
+          </div>
+        )}
+       {explanation && (
+            <div className={styles.translationToggleWrapper}>
+            <button
+              onClick={() => setShowExplanation(prev => !prev)}
+              className={styles.translationToggleBtn}
+            >
+              {showExplanation ? "Hide explanation" : "Show explanation"}
+            </button>
+            {showExplanation && (
+              <div className={styles.translationText}>
+              {explanation}
+              </div>
+            )}
+            </div>
+        )}
+
+          {question && 
         <div className={styles.questionContainer}>
           <span className={styles.questionNumber}>{number}</span>
           <span className={styles.question}>{question}</span>
@@ -122,21 +155,7 @@ const Question: React.FC<QuestionProps> = ({ number, question, contextText, opti
           );
         })}
       </div>
-      {englishTranslation && (
-        <div className={styles.translationToggleWrapper}>
-          <button
-        onClick={() => setShowTranslation(prev => !prev)}
-        className={styles.translationToggleBtn}
-          >
-        {showTranslation ? "Hide Translation" : "Show Translation"}
-          </button>
-          {showTranslation && (
-        <div className={styles.translationText}>
-          {englishTranslation}
-        </div>
-          )}
-        </div>
-      )}
+    
 
       {keywords && (
         <div className={styles.translationToggleWrapper}>

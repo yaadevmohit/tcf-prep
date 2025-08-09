@@ -21,6 +21,7 @@ type QuestionType = {
   options: Option[];
   englishTranslation?: string;
   keywords?: { word: string; translation: string }[];
+  explanation?: string;
 };
 
 
@@ -42,6 +43,7 @@ const Quiz: React.FC = () => {
         points={question.points}
         englishTranslation={question.englishTranslation}
         keywords={question.keywords}
+        explanation={question.explanation}
       />)
   return (
     <div className={styles.quizContainer}>
